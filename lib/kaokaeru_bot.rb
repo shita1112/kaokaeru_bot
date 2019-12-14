@@ -19,6 +19,7 @@ class KaokaeruBot
     return unless mention
     return unless media
 
+    change_face
     reply
     write_finished_mention
   end
@@ -37,8 +38,11 @@ class KaokaeruBot
     open(media.media_uri).read if media
   end
 
-  def changed_face
+  def change_face
     # FaceChanger.new(face_image).change
+  end
+
+  def changed_face
     File.open("../../Downloads/chibi-min.JPG")
   end
 
