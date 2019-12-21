@@ -1,5 +1,7 @@
 class KaokaeruBot
   class Twitter
+    MENTION_IDS_DIR = KaokaeruBot::DEEP_ROOT.join("kaokaeru_bot", "mentions")
+
     def initialize
       @client = ::Twitter::REST::Client.new do |config|
         config.consumer_key        = ENV["TWITTER_CONSUMER_KEY"]
@@ -10,18 +12,13 @@ class KaokaeruBot
     end
 
     def mention
-      mentions_timeline.find { |mention| mention.id === mention_id }
-    end
-
-    def reply(text, media, tweet)
-      @client.update_with_media(
-        "@#{tweet.user.screen_name} #{text}",
-        media,
-        in_reply_to_status_id: tweet.id
-      )
+      KaokaeruBot::Mentio.new(tweet_mention)
     end
 
     private
+    def tweet_mention
+      mentions_timeline.find { |mention| mention.id === mention_id }
+    end
 
     def mentions_timeline
       @mentions_timeline ||= @client.mentions_timeline
