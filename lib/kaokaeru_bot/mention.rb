@@ -1,6 +1,6 @@
 class KaokaeruBot
   class Mention
-    attr_accessor :word
+    attr_accessor :word, :mention
 
     def initialize(mention, client)
       @mention = mention
@@ -31,7 +31,7 @@ class KaokaeruBot
     end
 
     def face
-      @face ||= KaokaeruBot::Face.all.to_a.find { |face| @mention.text.include(face.word) } || KaokaeruBot::Face.all.sample
+      @face ||= KaokaeruBot::Face.all.to_a.find { |face| @mention.text.include?(face.word) } || KaokaeruBot::Face.all.to_a.sample
     end
 
     def message
@@ -39,9 +39,10 @@ class KaokaeruBot
         "とても#{@face.word}です(ΦωΦ)",
         "これは#{@face.word}なのだろうか？(ΦωΦ)",
         "#{@face.word}にしたよー(ΦωΦ)",
-        "#{@face.word}ならこんな感じ？(ΦωΦ)",
+        "#{@face.word}ならこんな感じかな？(ΦωΦ)",
         "#{@face.word}に変えてみた！(ΦωΦ)",
-        "#{@face.word}にしてみたけどどうだろう？(ΦωΦ)"
+        "#{@face.word}にしてみたけどどうだろう？(ΦωΦ)",
+        "#{@face.word}にしてみました！(ΦωΦ)"
       ].sample
     end
 
