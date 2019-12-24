@@ -1,28 +1,39 @@
 class FaceswapPy < BaseCommand
-  FACESWAP_PATH = DEEP_ROOT.join("faceswap_code", "faceswap_latest", "faceswap.py").freeze
-  TOOLS_PATH = DEEP_ROOT.join("faceswap_code", "faceswap_latest", "tools.py").freeze
-
   def extract(*args)
-    python(FACESWAP_PATH, "extract", *args)
+    python(faceswap_path, "extract", *args)
   end
 
   def train(*args)
-    python(FACESWAP_PATH, "train", *args)
+    python(faceswap_path, "train", *args)
   end
 
   def convert(*args)
-    python(FACESWAP_PATH, "convert", *args)
+    python(faceswap_path, "convert", *args)
   end
 
   def effmpeg(*args)
-    python(TOOLS_PATH, "effmpeg", *args)
+    python(tools_pagh, "effmpeg", *args)
   end
 
   def sort(*args)
-    python(TOOLS_PATH, "sort", *args)
+    python(tools_pagh, "sort", *args)
   end
 
   def train_with_timeout(time, *args)
-    run("timeout", time, "python", FACESWAP_PATH, "train", *args) { puts "finish train" }
+    # run("timeout", time, "python", faceswap_path, "train", *args) { puts "finish train" }
+
+    command = Shellwords.join(["python", faceswap_path, "train", *args].compact)
+    pid = Process.spawn(command)
+    sleep time
+    Process.kill(:INT, pid)
   end
+
+  def faceswap_path
+    KaokaeruBot::DEEP_ROOT.join("faceswap_code", "faceswap_latest", "faceswap.py").freeze
+  end
+
+  def tools_pagh
+    KaokaeruBot::DEEP_ROOT.join("faceswap_code", "faceswap_latest", "tools.py").freeze
+  end
+
 end

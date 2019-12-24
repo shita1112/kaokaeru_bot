@@ -1,7 +1,5 @@
 class KaokaeruBot
   class Twitter
-    MENTION_IDS_DIR = KaokaeruBot::DEEP_ROOT.join("kaokaeru_bot", "mentions")
-
     def initialize
       @client = ::Twitter::REST::Client.new do |config|
         config.consumer_key        = ENV["TWITTER_CONSUMER_KEY"]
@@ -12,7 +10,7 @@ class KaokaeruBot
     end
 
     def mention
-      KaokaeruBot::Mentio.new(tweet_mention)
+      KaokaeruBot::Mention.new(tweet_mention, @client)
     end
 
     private
@@ -29,7 +27,11 @@ class KaokaeruBot
     end
 
     def finished_ids
-      Dir["#{MENTION_IDS_DIR}/*"].map { |name| name.delete(MENTION_IDS_DIR).to_i }
+      Dir["#{mention_ids_dir}/*"].map { |name| name.sub(mention_ids_dir.to_s + "/", "").to_i }
+    end
+
+    def mention_ids_dir
+      KaokaeruBot::DEEP_ROOT.join("mention_ids")
     end
 
     def mention_ids

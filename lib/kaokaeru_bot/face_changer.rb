@@ -1,21 +1,22 @@
 # KaokaeruBot::FaceChanger.new(mention).create_image
 class KaokaeruBot
   class FaceChanger
-    include Rake::FileUtilsExt
+    include ::Rake::FileUtilsExt
 
     # TRAIN_TIME = 50.minutes # 90%
     # TRAIN_TIME = 20.minutes # 80%
     TRAIN_TIME = 5.minutes # 70%
 
     DETECTOR = "mtcnn"
-    SAVE_INTERVAL = 50 # batchサイズが1なので、高速
+    SAVE_INTERVAL = 100 # batchサイズが1なので、高速
     GPUS = 1
 
     def initialize(mention)
       @mention = mention
+      @face = mention.face
     end
 
-    def create_image
+    def change_face
       setup
 
       extract
@@ -33,14 +34,14 @@ class KaokaeruBot
     end
 
     def set_pathname
-      @deep_root = File.expand_path("../../../../", __FILE__)
+      @deep_root = KaokaeruBot::DEEP_ROOT
       @kaosdir = @deep_root.join("kaodir")
       @kaodir = @kaosdir.join(@mention.id)
-      @original_models = @deep_root.join("model_image",   @mention.face.type, "#{trained_model.trainer}_models")
-      @b_faces = @deep_root.join("model_image",   @mention.face.type, "images")
-      @models = @work.join("models")
+      @original_models = @deep_root.join("model_image",  @face.type, "#{@face.trainer}_models")
+      @b_faces = @deep_root.join("model_image",  @face.type, "images")
+      @models = @kaodir.join("models")
       @a_images = @kaodir.join("a_images")
-      @a_image = @a_images.join("original_face")
+      @a_image = @a_images.join("original_face.jpeg")
       @a_faces = @kaodir.join("a_faces")
       @df = @kaodir.join("df")
     end
@@ -51,6 +52,7 @@ class KaokaeruBot
 
     def mkdirs
       mkdir(@kaodir)
+      mkdir(@a_images)
     end
 
     def copy_models
@@ -71,8 +73,8 @@ class KaokaeruBot
         "--input-dir", @a_images,
         "--output-dir", @a_faces,
         "--detector", DETECTOR,
-        "--skip-existing",
-        "--skip-existing-faces"
+        # "--skip-existing",
+        # "--skip-existing-faces"
       )
     end
 
@@ -92,7 +94,7 @@ class KaokaeruBot
         "--input-A", @a_faces,
         "--input-B", @b_faces,
         "--model-dir", @models,
-        "--trainer", @mention.face.trainer,
+        "--trainer", @face.trainer,
         "--batch-size", @batch_size,
         "--save-interval", SAVE_INTERVAL,
         "--gpus", GPUS
@@ -104,7 +106,7 @@ class KaokaeruBot
         "--model-dir", @models,
         "--input-dir", @a_images,
         "--output-dir", @df,
-        "--trainer", @mention.face.trainer,
+        "--trainer", @face.trainer,
         "--gpus", GPUS,
         # "--smooth-box",
         # "--avg-color-adjust",
