@@ -24,10 +24,9 @@ class FaceswapPy < BaseCommand
 
     command = Shellwords.join(["python", faceswap_path, "train", *args].compact)
     pid = Process.spawn(command)
-    # sleep time
-    sleep 50
+    sleep time
     Process.kill(:INT, pid)
-    sleep 30
+    sleep 10
   end
 
   def faceswap_path

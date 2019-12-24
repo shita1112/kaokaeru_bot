@@ -31,19 +31,21 @@ class KaokaeruBot
     end
 
     def face
-      @face ||= KaokaeruBot::Face.all.to_a.find { |face| @mention.text.include?(face.word) } || KaokaeruBot::Face.all.to_a.sample
+      # @face ||= KaokaeruBot::Face.all.to_a.find { |face| @mention.text.include?(face.word) } || KaokaeruBot::Face.all.to_a.sample
+      @face ||= KaokaeruBot::Face.all.to_a.find { |face| @mention.text.include?(face.word) } || KaokaeruBot::Face.first
     end
 
     def message
-      [
-        "とても#{@face.word}です(ΦωΦ)",
-        "これは#{@face.word}なのだろうか？(ΦωΦ)",
-        "#{@face.word}にしたよー(ΦωΦ)",
-        "#{@face.word}ならこんな感じかな？(ΦωΦ)",
-        "#{@face.word}に変えてみた！(ΦωΦ)",
-        "#{@face.word}にしてみたけどどうだろう？(ΦωΦ)",
-        "#{@face.word}にしてみました！(ΦωΦ)"
-      ].sample
+      "#{@face.word}にしました！(ΦωΦ)"
+      # [
+      #   "とても#{@face.word}です(ΦωΦ)",
+      #   "これは#{@face.word}なのだろうか？(ΦωΦ)",
+      #   "#{@face.word}にしたよー(ΦωΦ)",
+      #   "#{@face.word}ならこんな感じかな？(ΦωΦ)",
+      #   "#{@face.word}に変えてみた！(ΦωΦ)",
+      #   "#{@face.word}にしてみたけどどうだろう？(ΦωΦ)",
+      #   "#{@face.word}にしてみました！(ΦωΦ)"
+      # ].sample
     end
 
     def id
@@ -65,11 +67,11 @@ class KaokaeruBot
     end
 
     def kao_path
-      Dir[KaokaeruBot::DEEP_ROOT.join("kaodir", id, "df")][0]
+      KaokaeruBot::DEEP_ROOT.join("kaodir", id, "df", "original_face.png")
     end
 
     def changed_face
-      File.read(kao_path)
+      File.open(kao_path)
     end
   end
 end

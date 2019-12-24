@@ -29,10 +29,7 @@ class KaokaeruBot
       @mention.change_face
       @mention.reply
     rescue
-      puts "エラー"
-
-      raise
-      # @mention.reply_error
+      @mention.reply_error
     end
 
     @mention.write_finished_mention
