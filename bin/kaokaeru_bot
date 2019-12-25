@@ -2,12 +2,16 @@
 
 require_relative "../lib/kaokaeru_bot"
 
-# Process.daemon
+Process.daemon
+$stdout = File.open("../kaokaeru_bot.log", "w")
 
 loop do
   puts "start"
+  $stdout.flush
   KaokaeruBot.call
+  $stdout.flush
   puts "finished"
+  $stdout.flush
 
   sleep 20
 end

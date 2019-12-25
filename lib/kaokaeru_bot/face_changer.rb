@@ -3,9 +3,9 @@ class KaokaeruBot
   class FaceChanger
     include ::Rake::FileUtilsExt
 
-    # TRAIN_TIME = 50.minutes # 90%
+    TRAIN_TIME = 55.minutes # 90%
     # TRAIN_TIME = 20.minutes # 80%
-    TRAIN_TIME = 5.minutes # 70%
+    # TRAIN_TIME = 5.minutes # 70%
 
     DETECTOR = "mtcnn"
     SAVE_INTERVAL = 100 # batchサイズが1なので、高速

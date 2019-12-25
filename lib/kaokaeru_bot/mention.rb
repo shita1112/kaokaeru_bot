@@ -37,16 +37,15 @@ class KaokaeruBot
 
     def message
       "#{@face.word}にしました！(ΦωΦ)"
-      # [
-      #   "とても#{@face.word}です(ΦωΦ)",
-      #   "これは#{@face.word}なのだろうか？(ΦωΦ)",
-      #   "#{@face.word}にしたよー(ΦωΦ)",
-      #   "#{@face.word}ならこんな感じかな？(ΦωΦ)",
-      #   "#{@face.word}に変えてみた！(ΦωΦ)",
-      #   "#{@face.word}にしてみたけどどうだろう？(ΦωΦ)",
-      #   "#{@face.word}にしてみました！(ΦωΦ)"
-      # ].sample
-    end
+    #   [
+    #     "#{@face.word}にしたつもりです！(ΦωΦ)",
+    #     "#{@face.word}にしたよー(ΦωΦ)",
+    #     "#{@face.word}ならこんな感じかな？(ΦωΦ)",
+    #     "#{@face.word}に変えてみました！(ΦωΦ)",
+    #     "#{@face.word}にしてみたけどいかがでしょう？(ΦωΦ)",
+    #     "#{@face.word}(ΦωΦ)"
+    #   ].sample
+    # end
 
     def id
       @mention.id.to_s
