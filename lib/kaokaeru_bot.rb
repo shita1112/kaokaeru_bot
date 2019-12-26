@@ -25,13 +25,14 @@ class KaokaeruBot
   def call
     return unless @mention.mention
 
+    # 先に書くことで複数動かせる
+    @mention.write_finished_mention
+
     begin
       @mention.change_face
       @mention.reply
     rescue
       @mention.reply_error
     end
-
-    @mention.write_finished_mention
   end
 end
